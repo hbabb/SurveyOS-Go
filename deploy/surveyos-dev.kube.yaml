@@ -1,14 +1,8 @@
 # Local development pod. Not for production.
+# Requires the Podman secret `surveyos-dev-db` (key: password), created from Doppler.
 # Start: podman kube play deploy/surveyos-dev.kube.yaml
 # Stop: podman kube play --down deploy/surveyos-dev.kube.yaml
 
-apiVersion: v1
-kind: Secret
-metadata:
-  name: surveyos-dev-db
-data:
-  password: c3VydmV5b3NfZGV2 # "surveyos_dev" (base64), local dev only
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
