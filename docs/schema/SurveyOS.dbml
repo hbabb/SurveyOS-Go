@@ -17,6 +17,7 @@ Enum contact_role {
   realtor
   attorney
   lender
+  property_owner
 }
 
 Enum account_status {
@@ -82,8 +83,9 @@ Enum document_type {
 Table employees {
   id bigint [pk, increment]
   auth_provider_user_id varchar(255) [null, unique, note: 'User ID from the hosted auth service. Never used as a foreign key target.']
-  name varchar(160) [not null]
-  email varchar(190) [not null, unique]
+  first_name varchar(100) [not null]
+  last_name varchar(100) [not null]
+  email email_address [not null, unique]
   position employee_position [not null, note: 'Descriptive only — permissions come from employee_roles.']
   initials varchar(3) [not null]
   is_active boolean [not null, default: true, note: 'Deactivating an employee also revokes their api_tokens.']
@@ -199,9 +201,9 @@ Table companies {
   id bigint [pk, increment]
   name varchar(220) [not null]
   account_status account_status [not null, default: 'active']
-  main_email varchar(190) [null]
-  main_phone varchar(80) [null]
-  accounting_email varchar(190) [null]
+  main_email email_address [null, unique]
+  main_phone phone_number [null, unique]
+  accounting_email email_address [null, unique]
 
   billing_address_line_1 varchar(255) [not null]
   billing_address_line_2 varchar(255) [null]
@@ -231,14 +233,15 @@ Table companies {
 Table contacts {
   id bigint [pk, increment]
   company_id bigint [null, note: 'NULL = individual client.']
-  name varchar(160) [not null]
-  email varchar(190) [not null, unique]
-  phone varchar(10) [not null]
+  first_name varchar(100) [not null]
+  last_name varchar(100) [not null]
+  email email_address [not null, unique]
+  phone phone_number [not null]
   title varchar(160) [null]
   contact_role contact_role [null]
   account_status account_status [null, note: 'Only used when company_id IS NULL. Company contacts inherit companies.account_status. Leads = prospect.']
   portal_enabled boolean [not null, default: false, note: 'Client portal is post-V1.']
-  notification_email varchar(190) [null, note: 'NULL = use contacts.email.']
+  notification_email email_address [null, note: 'NULL = use contacts.email.']
   can_view_accounting boolean [not null, default: false]
   can_view_all_company_projects boolean [not null, default: false]
 
@@ -279,6 +282,11 @@ Table site_intakes {
 
   indexes {
     contact_id
+    city
+    county
+//    state
+    township
+    pin
   }
 }
 
@@ -646,4 +654,3 @@ Ref: project_documents.uploaded_by_employee_id >? employees.id [delete: set null
 
 Ref: project_invoices.project_id > projects.id [delete: restrict]
 Ref: project_invoice_line_items.project_invoice_id > project_invoices.id [delete: cascade]
-
