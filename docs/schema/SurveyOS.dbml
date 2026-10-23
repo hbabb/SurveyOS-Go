@@ -17,6 +17,7 @@ Enum contact_role {
   realtor
   attorney
   lender
+  property_owner
 }
 
 Enum account_status {
@@ -55,6 +56,13 @@ Enum project_status {
 Enum project_priority {
   high
   urgent
+}
+
+Enum project_customer_status {
+  project_started
+  project_delayed
+  draft_ready
+  final_ready
 }
 
 Enum lot_deliverable_type {
@@ -114,14 +122,15 @@ Table employee_licenses {
 
 Table roles {
   id bigint [pk, increment]
-  name varchar(125) [not null, unique]
+  name varchar(155) [not null, unique]
   created_at timestamptz [not null, default: `now()`]
   updated_at timestamptz [not null, default: `now()`]
 }
 
 Table permissions {
   id bigint [pk, increment]
-  name varchar(125) [not null, unique]
+  name varchar(255) [not null, unique]
+  description text [null]
   created_at timestamptz [not null, default: `now()`]
   updated_at timestamptz [not null, default: `now()`]
 }
@@ -274,7 +283,7 @@ Table site_intakes {
   state varchar(2) [not null]
   zip varchar(10) [null]
   township varchar(120) [null]
-  pin varchar(60) [null, note: 'Required in app code when there is no address.']
+  pin varchar(60) [null, note: 'Required when there is no address.']
   notes text [null]
   created_at timestamptz [not null, default: `now()`]
   updated_at timestamptz [not null, default: `now()`]
@@ -283,15 +292,19 @@ Table site_intakes {
     contact_id
     city
     county
-    state
     township
     pin
+  }
+
+  checks {
+    `address_line_1 IS NOT NULL OR pin IS NOT NULL`
   }
 }
 
 Table service_types {
   id bigint [pk, increment]
   name varchar(140) [not null]
+  is_active boolean [not null, default: true]
   created_at timestamptz [not null, default: `now()`]
   updated_at timestamptz [not null, default: `now()`]
 
@@ -355,7 +368,8 @@ Table projects {
   field_scheduled_date date [null]
   invoiced_at timestamptz [null]
   last_followed_up_at timestamptz [null]
-  customer_status varchar(120) [not null, default: 'Project started']
+  customer_status project_customer_status [not null, default: 'project_started']
+  customer_status_notes text [null]
   target_delivery date [null]
   project_manager_id bigint [null]
   researcher_id bigint [null]
@@ -367,6 +381,10 @@ Table projects {
   indexes {
     status
     (status, last_followed_up_at)
+  }
+
+  checks {
+    `project_no ~ '^[0-9]{6}$'`
   }
 }
 
