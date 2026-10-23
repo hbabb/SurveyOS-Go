@@ -468,12 +468,13 @@ Table project_fema_references {
   project_id bigint [not null]
   sort_order int [not null, default: 0]
   fema_map_number varchar(40) [not null]
-  fema_effective_date date [null]
+  fema_effective_date date [not null]
   created_at timestamptz [not null, default: `now()`]
   updated_at timestamptz [not null, default: `now()`]
 
   indexes {
     project_id
+    fema_map_number
   }
 }
 
