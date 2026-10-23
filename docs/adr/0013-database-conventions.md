@@ -23,6 +23,10 @@ The schema is built one migration at a time. Consistent naming and types keep it
 - Tables: plural, snake_case (`site_intakes`).
 - Indexes: `idx_<table>_<column>`, with columns joined by `_` for multi-column indexes (`idx_site_intakes_contact_id`).
 
+### Indexes
+
+- Every foreign-key column gets an index, unless a primary key or unique constraint already starts with it. PostgreSQL doesn't index foreign keys on its own, and `ON DELETE` actions have to find the referencing rows.
+
 ### Types
 
 - Primary keys: `bigint GENERATED ALWAYS AS IDENTITY`.
@@ -31,6 +35,8 @@ The schema is built one migration at a time. Consistent naming and types keep it
 - Link tables (`role_permissions`, `employee_roles`, `project_field_crew`) have no timestamps.
 - Append-only tables (`api_tokens`, `activity_log`) have `created_at` only.
 - Each enum is created in the migration of the first table that uses it, and dropped in that migration's Down section.
+- Enum values can be added (`ALTER TYPE ... ADD VALUE`) and renamed (`ALTER TYPE ... RENAME VALUE`), but not removed. Use an enum when values only ever get added.
+- A value added in a migration can't be used until that migration's transaction finishes. Defaults or rows using the new value go in the next migration.
 
 ### Domains
 
@@ -47,3 +53,4 @@ Rules are checked in both places: the app, for clear messages while the form is 
 
 - Changing a shared rule means changing one domain, plus the matching app validation.
 - Pushed migrations stay fixed, so every database built from the repo ends up the same.
+
