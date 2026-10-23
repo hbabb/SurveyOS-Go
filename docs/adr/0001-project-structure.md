@@ -64,7 +64,7 @@ SurveyOS/
 │   ├── adr/
 │   └── schema/
 │       └── SurveyOS.dbml
-├── mise.toml
+├── justfile
 ├── .gitignore
 └── README.md
 ```
@@ -74,7 +74,7 @@ SurveyOS/
 - `api/` is its own Go module. `web/` is its own Bun project, built with Vite+.
 - `api/internal/` keeps packages private to SurveyOS.
 - Each outside service (`accounting`, `auth`, `geocode`, `parcels`, `storage`, `email`) sits behind a Go interface, so the provider can be swapped without touching handlers.
-- One `mise.toml`, at the root. It applies to `api/` and `web/` automatically.
+- One `justfile`, at the root. Its recipes work from any folder in the repo.
 - `docs/schema/SurveyOS.dbml` is the schema source of truth. Migrations follow it.
 
 ### Frontend embedding
@@ -87,4 +87,4 @@ In development, the Vite dev server runs in its own container and proxies `/api`
 
 - Schema, API, and frontend changes land in the same commit.
 - The Go binary has no runtime dependency on Node in production.
-- The copy step must run before every production build. It lives in a `mise` task so it cannot be skipped.
+- The copy step must run before every production build. It lives in a `just` recipe so it cannot be skipped.

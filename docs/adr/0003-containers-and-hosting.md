@@ -22,7 +22,7 @@ Development happens on Omarchy (Arch-based). The production server's distributio
 `deploy/surveyos-dev.kube.yaml`:
 
 - **postgres** — `postgres:18-alpine`. Data in the named volume `surveyos-dev-pgdata`, mounted at `/var/lib/postgresql` (the mount point for PostgreSQL 18+). Port 5432, published to `127.0.0.1` only.
-- **web** — `oven/bun:1`, with `web/` bind-mounted at `/app`. Runs `bun install`, then the Vite+ dev server on port 5173, published to `127.0.0.1` only.
+- **web** — `oven/bun:1`, with `web/` bind-mounted at `/app`. Runs `bun install`, then the Vite+ dev server on port 5173, published to `127.0.0.1` only. `imagePullPolicy: Newer` pulls the newest 1.x image each time the pod starts.
 - **api** — added once the Go app exists.
 - The database password comes from the Podman secret `surveyos-dev-db`. No secret values are in the file (see ADR 0012).
 - The `web/` mount path is absolute (`/home/hqb/Projects/SurveyOS/web`). Moving the repo means updating it.
