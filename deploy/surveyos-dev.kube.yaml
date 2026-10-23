@@ -41,6 +41,7 @@ spec:
           mountPath: /var/lib/postgresql
     - name: web
       image: docker.io/oven/bun:1
+      imagePullPolicy: Newer
       workingDir: /app
       command: ["sh", "-c", "bun install && bun run dev --host 0.0.0.0 --port 5173"]
       ports:
