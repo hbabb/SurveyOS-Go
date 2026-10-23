@@ -32,7 +32,8 @@ SurveyOS is a business application for a small firm: forms, tables, statuses, PD
 
 ### Tooling
 
-- **mise** pins tool versions (Go, Node, Bun, sqlc, goose) and holds project tasks.
+- **mise** pins tool versions (Go, Bun, sqlc, goose) and holds project tasks.
+- **Doppler** holds secrets (see ADR 0012).
 - **jj** colocated with git. Remote: GitHub.
 
 ## Consequences

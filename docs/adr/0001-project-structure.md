@@ -58,7 +58,6 @@ SurveyOS/
 │   └── vite.config.ts             Dev proxy: /api → Go API container
 ├── deploy/
 │   ├── api.Containerfile
-│   ├── web.Containerfile          Dev-only Vite server
 │   ├── surveyos-dev.kube.yaml     Dev pod: api, web, postgres
 │   └── surveyos-prod.kube.yaml    Production pod: api, postgres
 ├── docs/
@@ -82,7 +81,7 @@ SurveyOS/
 
 `go:embed` cannot reach parent directories, so it cannot read `web/dist` from inside `api/`. The production build copies `web/dist` into `api/internal/webui/dist`, then compiles the Go binary. The result is one binary serving both the API and the frontend.
 
-In development, the Vite dev server runs in its own container and proxies `/api` requests to the Go API container.
+In development, the Vite dev server runs in its own container and proxies `/api` requests to the Go API container. That container uses the official Bun image with `web/` mounted into it, so it needs no Containerfile.
 
 ## Consequences
 

@@ -30,6 +30,7 @@ Lead → client added → site intake → proposal → acceptance → project ac
 | CAD integration | C# .NET DLL (`GeoNexaToolPac_Cad.dll`) and AutoLISP |
 | Version control | jj colocated with git, GitHub                       |
 | Tool versions   | mise                                                |
+| Secrets         | Doppler                                             |
 
 ## Repository layout
 
@@ -37,7 +38,7 @@ Lead → client added → site intake → proposal → acceptance → project ac
 SurveyOS/
 ├── api/          Go backend
 ├── web/          Vue frontend
-├── deploy/       Containerfiles and Podman pod definitions
+├── deploy/       Containerfile and Podman pod definitions
 ├── docs/
 │   ├── adr/      Architecture decision records
 │   └── schema/   SurveyOS.dbml

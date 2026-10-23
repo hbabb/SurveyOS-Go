@@ -1,0 +1,60 @@
+# Local development pod. Not for production.
+# Requires the Podman secret `surveyos-dev-db` (key: password), created from Doppler.
+# Start: podman kube play deploy/surveyos-dev.kube.yaml
+# Stop: podman kube play --down deploy/surveyos-dev.kube.yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: surveyos-dev-pgdata
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: surveyos-dev
+spec:
+  containers:
+    - name: postgres
+      image: docker.io/library/postgres:18-alpine
+      env:
+        - name: POSTGRES_USER
+          value: surveyos
+        - name: POSTGRES_DB
+          value: surveyos
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: surveyos-dev-db
+              key: password
+      ports:
+        - containerPort: 5432
+          hostPort: 5432
+          hostIP: 127.0.0.1
+      volumeMounts:
+        - name: pgdata
+          mountPath: /var/lib/postgresql
+    - name: web
+      image: docker.io/oven/bun:1
+      workingDir: /app
+      command: ["sh", "-c", "bun install && bun run dev --host 0.0.0.0 --port 5173"]
+      ports:
+        - containerPort: 5173
+          hostPort: 5173
+          hostIP: 127.0.0.1
+      volumeMounts:
+        - name: web-src
+          mountPath: /app
+  volumes:
+    - name: pgdata
+      persistentVolumeClaim:
+        claimName: surveyos-dev-pgdata
+    - name: web-src
+      hostPath:
+        path: /home/hqb/Projects/SurveyOS/web # must be absolute
+        type: Directory
