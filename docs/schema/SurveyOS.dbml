@@ -1,5 +1,5 @@
 // ============================================================
-// Enums
+// Staff, access, and audit
 // ============================================================
 
 Enum employee_position {
@@ -9,111 +9,6 @@ Enum employee_position {
   field
   pls
 }
-
-Enum contact_role {
-  project_manager
-  accounting
-  title_agent
-  realtor
-  attorney
-  lender
-  property_owner
-}
-
-Enum account_status {
-  active
-  inactive
-  prospect
-  suspended
-}
-
-Enum proposal_status {
-  draft
-  sent
-  viewed
-  accepted
-  declined
-  expired
-}
-
-Enum proposal_accepted_via {
-  portal
-  employee_entry
-}
-
-Enum project_status {
-  research
-  ready_for_schedule
-  scheduled
-  ready_for_drafting
-  ready_for_review
-  ready_for_invoice
-  awaiting_payment
-  ready_to_deliver
-  delivered
-}
-
-Enum project_priority {
-  high
-  urgent
-}
-
-Enum project_customer_status {
-  project_started
-  project_delayed
-  draft_ready
-  final_ready
-}
-
-Enum project_horizontal_datum {
-  "NAD27"
-  "NAD83 (NSRS 2011)"
-  "WGS84"
-}
-
-Enum project_vertical_datum {
-  "NGVD29"
-  "NAVD88 (GEOID18)"
-}
-
-Enum project_drawing_scale {
-  "1\" = 1'"
-  "1\" = 5'"
-  "1\" = 10'"
-  "1\" = 20'"
-  "1\" = 30'"
-  "1\" = 40'"
-  "1\" = 50'"
-  "1\" = 60'"
-  "1\" = 70'"
-  "1\" = 80'"
-  "1\" = 100'"
-  "1\" = 200'"
-  "1\" = 300'"
-  "1\" = 400'"
-}
-
-Enum lot_deliverable_type {
-  lot_fit
-  plot_plan
-  house_stake
-  pin_footings
-  final_mortgage_survey
-}
-
-Enum location_source {
-  geocoded
-  manual
-}
-
-Enum document_type {
-  research
-  final_deliverable
-}
-
-// ============================================================
-// Staff, access, and audit
-// ============================================================
 
 Table employees {
   id bigint [pk, increment]
@@ -233,6 +128,13 @@ Table number_sequences {
 // Clients
 // ============================================================
 
+Enum account_status {
+  active
+  inactive
+  prospect
+  suspended
+}
+
 Table companies {
   id bigint [pk, increment]
   name varchar(220) [not null]
@@ -264,6 +166,16 @@ Table companies {
     name
     account_status
   }
+}
+
+Enum contact_role {
+  project_manager
+  accounting
+  title_agent
+  realtor
+  attorney
+  lender
+  property_owner
 }
 
 Table contacts {
@@ -343,6 +255,20 @@ Table service_types {
   note: 'Survey services offered. Names are unique regardless of capitalization.'
 }
 
+Enum proposal_status {
+  draft
+  sent
+  viewed
+  accepted
+  declined
+  expired
+}
+
+Enum proposal_accepted_via {
+  portal
+  employee_entry
+}
+
 Table proposals {
   id bigint [pk, increment]
   proposal_no varchar(8) [not null, unique, note: 'P-YYNNNN, generated at creation.']
@@ -385,6 +311,30 @@ Table proposals {
 // Projects
 // ============================================================
 
+Enum project_status {
+  research
+  ready_for_schedule
+  scheduled
+  ready_for_drafting
+  ready_for_review
+  ready_for_invoice
+  awaiting_payment
+  ready_to_deliver
+  delivered
+}
+
+Enum project_priority {
+  high
+  urgent
+}
+
+Enum project_customer_status {
+  project_started
+  project_delayed
+  draft_ready
+  final_ready
+}
+
 Table projects {
   id bigint [pk, increment]
   project_no varchar(6) [not null, unique, note: 'YYNNNN, generated at proposal acceptance.']
@@ -426,6 +376,34 @@ Table project_field_crew {
   }
 }
 
+Enum project_horizontal_datum {
+  "NAD27"
+  "NAD83 (NSRS 2011)"
+  "WGS84"
+}
+
+Enum project_vertical_datum {
+  "NGVD29"
+  "NAVD88 (GEOID18)"
+}
+
+Enum project_drawing_scale {
+  "1\" = 1'"
+  "1\" = 5'"
+  "1\" = 10'"
+  "1\" = 20'"
+  "1\" = 30'"
+  "1\" = 40'"
+  "1\" = 50'"
+  "1\" = 60'"
+  "1\" = 70'"
+  "1\" = 80'"
+  "1\" = 100'"
+  "1\" = 200'"
+  "1\" = 300'"
+  "1\" = 400'"
+}
+
 Table project_survey_details {
   id bigint [pk, increment]
   project_id bigint [not null, unique]
@@ -465,6 +443,11 @@ Table project_survey_details {
   }
 
   note: 'Title block and survey data, one row per project.'
+}
+
+Enum location_source {
+  geocoded
+  manual
 }
 
 Table project_cad_setups {
@@ -522,6 +505,14 @@ Table project_lots {
   indexes {
     project_id
   }
+}
+
+Enum lot_deliverable_type {
+  lot_fit
+  plot_plan
+  house_stake
+  pin_footings
+  final_mortgage_survey
 }
 
 Table project_lot_deliverables {
@@ -623,6 +614,11 @@ Table project_research_notes {
   indexes {
     project_id
   }
+}
+
+Enum document_type {
+  research
+  final_deliverable
 }
 
 Table project_documents {
