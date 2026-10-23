@@ -30,6 +30,7 @@ GeoNexa should never have projects for jobs it didn't win, and every project mus
 - A change order is a proposal with `change_order_project_id` set. It reuses the project's site intake and gets a normal `P-YYNNNN` number. A project can have many change orders.
 - Status is two-way: no enforced forward-only transitions.
 - `priority` is null by default and overrides the computed research/CAD queue order.
+- `customer_status` is the client-side status (`project_started`, `project_delayed`, `draft_ready`, `final_ready`), separate from the internal `status`. `customer_status_notes` holds the detail behind it.
 - The research/CAD queue is computed (first in, first out, with priority override), not stored.
 - Field crew is a link table (`project_field_crew`).
 - Archive sets `archived_at` and locks the project. Only a superuser can unarchive.

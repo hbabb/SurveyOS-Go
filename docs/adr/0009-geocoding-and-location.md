@@ -14,9 +14,8 @@ CAD setup needs a project location. Bad geocodes are worse than none.
 - Geocoding is button-triggered on the CAD setup screen, not automatic at project creation.
 - Coordinates are WGS84 latitude/longitude in `project_cad_setups`. No elevation is stored.
 - A manual location always wins. Once `location_source = manual`, geocoding never overwrites it.
-- Horizontal and vertical datums are application-level picklists, not database enums.
+- Horizontal and vertical datums are covered in ADR 0014.
 
 ## Consequences
 
 - Some projects have no coordinates until someone enters them manually.
-- Adding a datum is a code change, not a migration.

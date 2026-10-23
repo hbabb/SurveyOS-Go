@@ -15,22 +15,22 @@ Lead → client added → site intake → proposal → acceptance → project ac
 
 ## Stack
 
-| Layer           | Choice                                              |
-| --------------- | --------------------------------------------------- |
-| Backend         | Go, chi (router), testify (tests)                   |
-| Frontend        | Vue, Vite+, TypeScript, Vue Router                  |
-| Package manager | Bun                                                 |
-| Database        | PostgreSQL, goose (migrations), sqlc (queries)      |
-| Containers      | Podman pods, one container per service              |
-| Hosting         | GeoNexa's Hostinger VPS                             |
-| Accounting      | QuickBooks Online, behind an interface              |
-| Parcel data     | Regrid                                              |
-| Geocoding       | Geocodio                                            |
-| File storage    | S3-compatible bucket                                |
-| CAD integration | C# .NET DLL (`GeoNexaToolPac_Cad.dll`) and AutoLISP |
-| Version control | jj colocated with git, GitHub                       |
-| Tool versions   | mise                                                |
-| Secrets         | Doppler                                             |
+| Layer           | Choice                                               |
+| --------------- | ---------------------------------------------------- |
+| Backend         | Go, chi (router), testify (tests)                    |
+| Frontend        | Vue, Vite+, TypeScript, Vue Router                   |
+| Package manager | Bun                                                  |
+| Database        | PostgreSQL, goose (migrations), sqlc (queries)       |
+| Containers      | Podman pods, one container per service               |
+| Hosting         | GeoNexa's Hostinger VPS                              |
+| Accounting      | QuickBooks Online, behind an interface               |
+| Parcel data     | Regrid                                               |
+| Geocoding       | Geocodio                                             |
+| File storage    | S3-compatible bucket                                 |
+| CAD integration | C# .NET DLL (`GeoNexaToolPac_Cad.dll`) and AutoLISP  |
+| Version control | jj colocated with git, GitHub                        |
+| Tool versions   | `api/go.mod` (Go, goose, sqlc), container image tags |
+| Secrets         | Doppler                                              |
 
 ## Repository layout
 
@@ -42,7 +42,7 @@ SurveyOS/
 ├── docs/
 │   ├── adr/      Architecture decision records
 │   └── schema/   SurveyOS.dbml
-├── mise.toml     Tool versions and tasks for the whole repo
+├── justfile      Project tasks
 └── README.md
 ```
 
