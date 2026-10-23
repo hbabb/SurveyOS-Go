@@ -28,3 +28,7 @@ pod-down:
 # Recreate the dev pod after changing its file
 pod-replace:
     podman kube play --replace {{pod_file}}
+
+# Show the dev pod's containers by name
+pod-status:
+    podman ps --pod --filter pod=surveyos-dev --format "{{{{.Names}}  {{{{.Image}}  {{{{.Status}}"
