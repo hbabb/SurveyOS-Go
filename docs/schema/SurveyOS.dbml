@@ -487,6 +487,7 @@ Table project_invoice_followups {
 
   indexes {
     project_id
+    employee_id
   }
 }
 
